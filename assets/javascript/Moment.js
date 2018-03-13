@@ -20,16 +20,16 @@ $("#submit-form").on("click", function (event) {
   // Grabbed values from text boxes
   train = $("#train-input").val().trim();
   destination = $("#destination-input").val().trim();
-  time = $("#time-input").val().trim();
+  firstTime = $("#time-input").val().trim();
   frequency = parseInt($("#frequency-input").val().trim());
 
-  console.log(train, destination, time, frequency);
+  console.log(train, destination, firstTime, frequency);
 
   // Code for handling the push
   database.ref().push({
     train: train,
     destination: destination,
-    time: time,
+    firstTime: firstTime,
     frequency: frequency,
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
@@ -43,9 +43,27 @@ database.ref().on("child_added", function (childSnapshot) {
   var destination = childSnapshot.val().destination;
   var frequency = childSnapshot.val().frequency;
   //get time of next train
-  var nextArrival = moment()
+  var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+  console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
   //Get number of min until next train 
-  var minAway = moment().diff(moment(date), "months");
+  var tMinutesTillTrain = frequency - tRemainder;
+console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+  var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+console.log(firstTimeConverted);
+// Current Time
+var currentTime = moment();
+console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+// Difference between the times
+var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+console.log("DIFFERENCE IN TIME: " + diffTime);
+// Time apart (remainder)
+var tRemainder = diffTime % frequency;
+console.log(tRemainder);
+// Minute Until Train
+// Next Train
+
+//END OF CLASS ACTIVITY
  
   // var totalRate = parseInt(months) * parseInt(rate);
 
@@ -53,28 +71,38 @@ database.ref().on("child_added", function (childSnapshot) {
   // var sv = snapshot.val();
   var tbody = $('#train-data')
   var tr = $("<tr>");
-  var tdTrain = $("<td>").text(name);
-  var tdDestination = $("<td>").text(role);
+  var tdTrain = $("<td>").text(train);
+  var tdDestination = $("<td>").text(destination);
   var tdFrequency = $("<td>").text(frequency);
-  var tdNext = $("<td>").text(nextArrival);
-  var tdMinutes = $("<td>").text(minAway);
+  var tdNext = $("<td>").text(nextTrain);
+  var tdMinutes = $("<td>").text(tMinutesTillTrain);
 
   tr.append(tdTrain, tdDestination, tdFrequency, tdNext, tdMinutes);
 
   tbody.append(tr);
 
-
-  // // Console.loging the last user's data
-  // console.log(Snapshot.val().name);
-  // console.log(Snapshot.val().role);
-  // console.log(Snapshot.val().date);
-  // console.log(Snapshot.val().rate);
-
-  // // Change the HTML to reflect
-  // $("#name-display").text(Snapshot.val().name);
-  // $("#role-display").text(Snapshot.val().role);
-  // $("#date-display").text(Snapshot.val().date);
-  // $("#rate-display").text(Snapshot.val().rate);
+//LOOK AT THIS
+// Time is 3:30 AM
+// var firstTime = "";
+// First Time (pushed back 1 year to make sure it comes before current time)
+// var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+// console.log(firstTimeConverted);
+// // Current Time
+// var currentTime = moment();
+// console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+// // Difference between the times
+// var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+// console.log("DIFFERENCE IN TIME: " + diffTime);
+// // Time apart (remainder)
+// var tRemainder = diffTime % tFrequency;
+// console.log(tRemainder);
+// // Minute Until Train
+// var tMinutesTillTrain = tFrequency - tRemainder;
+// console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+// // Next Train
+// var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+// console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+// //END OF CLASS ACTIVITY
 
   // Handle the errors
 }, function (errorObject) {
