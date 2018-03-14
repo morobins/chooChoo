@@ -34,9 +34,14 @@ $("#submit-form").on("click", function (event) {
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   });
 
+  $("#train-input").val('');
+  $("#destination-input").val('');
+  $("#time-input").val('');
+  $("#frequency-input").val('');
+ 
+
 });
 
-// Firebase watcher + initial loader + order/limit HINT: .on("child_added"
 database.ref().on("child_added", function (childSnapshot) {
 
   var firstTime = childSnapshot.val().firstTime;
@@ -44,7 +49,6 @@ database.ref().on("child_added", function (childSnapshot) {
   var destination = childSnapshot.val().destination;
   var frequency = childSnapshot.val().frequency;
   
-
 
   //put time in military time
   var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
@@ -82,29 +86,6 @@ database.ref().on("child_added", function (childSnapshot) {
   tr.append(tdTrain, tdDestination, tdFrequency, tdNext, tdMinutes);
 
   tbody.append(tr);
-
-  //LOOK AT THIS
-  // Time is 3:30 AM
-  // var firstTime = "";
-  // First Time (pushed back 1 year to make sure it comes before current time)
-  // var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-  // console.log(firstTimeConverted);
-  // // Current Time
-  // var currentTime = moment();
-  // console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
-  // // Difference between the times
-  // var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-  // console.log("DIFFERENCE IN TIME: " + diffTime);
-  // // Time apart (remainder)
-  // var tRemainder = diffTime % tFrequency;
-  // console.log(tRemainder);
-  // // Minute Until Train
-  // var tMinutesTillTrain = tFrequency - tRemainder;
-  // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
-  // // Next Train
-  // var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-  // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
-  // //END OF CLASS ACTIVITY
 
   // Handle the errors
 }, function (errorObject) {

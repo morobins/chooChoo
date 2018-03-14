@@ -11,7 +11,7 @@
 
 <body>
 
-  <div class="jumbotron jumbotron-fluid">
+  <div class="jumbotron text-center train-head">
     <div class="container">
       <h1 class="display-4">Train Scheduler</h1>
       <p class="lead">Enter your train information below in order to retrieve the next train arriving.</p>
@@ -20,12 +20,12 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-4">
+      <div class="col-4" id="form-container">
         <div class="card my-3">
           <div class="card-header">
             <h4>Enter Your Train Info:</h4>
           </div>
-          <br>
+          <div class="card-body">
           <form>
             <div class="form-group">
               <label for="name">Train Name</label>
@@ -45,6 +45,7 @@
             </div>
             <button type="submit" class="btn btn-primary" id="submit-form">Submit</button>
           </form>
+        </div>
         </div>
       </div>
       <div class="col-8">
