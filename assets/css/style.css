@@ -1,7 +1,10 @@
-.train-head {
-  background-image: url(./images/train.jpg);
+
+body {
+  background-image: url("../images/station_2.jpeg");
 }
 
-#form-container {
-  padding: 10px;
+.jumbotron {
+  color: #17a2b8;
+  background-color: #606060;
+  border-bottom: black;
 }
